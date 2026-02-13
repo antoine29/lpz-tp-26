@@ -1,0 +1,9 @@
+digitransit-ui
+hsl-files
+
+**/*files*/
+
+*.zip
+*.pbf
+*.db
+

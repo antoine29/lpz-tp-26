@@ -1,0 +1,50 @@
+{
+  "esclient": {
+    "apiVersion": "7.x",
+    "hosts": [
+      {
+        "host": "elasticsearch",
+        "port": 9200
+      }
+    ]
+  },
+
+  "api": {
+    "services": {
+      "placeholder": {
+        "url": "http://placeholder:4100"
+      },
+      "libpostal": {
+        "url": "http://libpostal:8080"
+      }
+    }
+  },
+
+  "imports": {
+    "openstreetmap": {
+      "download": [
+        {
+          "sourceURL": "https://download.geofabrik.de/south-america/bolivia-latest.osm.pbf"
+        }
+      ],
+      "bounding_box": {
+        "min_lat": -16.677526,
+        "max_lat": -16.409631,
+        "min_lon": -68.332546,
+        "max_lon": -67.935321
+      },
+      "datapath": "/mnt/pelias/openstreetmap",
+      "leveldbpath": "/tmp",
+      "import": {
+        "poi": {
+          "require_name": true,
+          "types": ["node"]
+        },
+        "address": {
+          "interpolation": false
+        },
+        "filename": "bolivia-latest.osm.pbf"
+      }
+    }
+  }
+}

@@ -1,0 +1,132 @@
+version: "3.7"
+
+services:
+  # --- ES ---
+  elasticsearch:
+    image: pelias/elasticsearch:7.17.27
+    container_name: pelias_elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms4g -Xmx4g
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    restart: always
+    ports: [ 
+      "127.0.0.1:9200:9200", 
+      "127.0.0.1:9300:9300" 
+    ]
+  
+  # es_ui:
+  #   image: cars10/elasticvue:latest
+  #   container_name: es_ui
+  #   ports:
+  #     - "8081:8080"
+
+  schema:
+    image: pelias/schema:master
+    container_name: pelias_schema
+    user: root
+    command: npm run create_index
+    environment:
+      - PELIAS_CONFIG=/config/pelias.json
+    volumes:
+      - ./pelias.json:/config/pelias.json
+    depends_on:
+      - elasticsearch
+  
+  # --- DATA IMPORTERS ---
+  openstreetmap:
+    image: pelias/openstreetmap
+    user: root
+    environment:
+      - PELIAS_CONFIG=/config/pelias.json
+    command: npm start
+    volumes:
+      - ./pelias.json:/config/pelias.json
+      - ./bolivia-latest.osm.pbf:/mnt/pelias/openstreetmap/bolivia-latest.osm.pbf
+      - ./whosonfirst-data-admin-bo-latest.db:/mnt/pelias/whosonfirst/sqlite/whosonfirst-data-admin-bo-latest.db
+    depends_on:
+      - elasticsearch
+
+  # openaddresses:
+  #   image: pelias/openaddresses
+  #   environment:
+  #     - PELIAS_CONFIG=/config/pelias.json
+  #   volumes:
+  #     - ./pelias.json:/config/pelias.json
+  #   depends_on:
+  #     - elasticsearch
+
+  whosonfirst:
+    image: pelias/whosonfirst
+    user: root
+    environment:
+      - PELIAS_CONFIG=/config/pelias.json
+    command: npm start
+    volumes:
+      - ./pelias.json:/config/pelias.json
+      - ./whosonfirst-data-admin-bo-latest.db:/mnt/pelias/whosonfirst/sqlite/whosonfirst-data-admin-bo-latest.db
+    depends_on:
+      - elasticsearch
+
+  placeholder_importer:
+    image: pelias/placeholder
+    user: root
+    environment:
+      - PLACEHOLDER_DATA=/data
+      - PELIAS_CONFIG=/config/pelias.json
+    command: ["/app/run-placeholder-build.sh"]
+    volumes:
+      - placeholderdata:/data
+      - ./pelias.json:/config/pelias.json
+      - ./whosonfirst-data-admin-bo-latest.db:/mnt/pelias/whosonfirst/sqlite/whosonfirst-data-admin-bo-latest.db
+      - ./run-placeholder-build.sh:/app/run-placeholder-build.sh:ro
+
+  # --- SERVICES ---
+  parser:
+    image: pelias/parser
+    container_name: pelias_parser
+    ports:
+      - "4400:3000"
+
+  placeholder:
+    image: pelias/placeholder
+    container_name: pelias_placeholder
+    environment:
+      - PLACEHOLDER_DATA=/data
+    command: npm run start
+    volumes:
+      - placeholderdata:/data
+    ports:
+      - "4100:4100"
+
+  pip:
+    image: pip:latest
+    user: root
+    command: npm start
+    environment:
+      - PELIAS_CONFIG=/config/pelias.json
+    volumes:
+      - ./pelias.json:/config/pelias.json
+    ports:
+      - "3102:3102"
+
+  api:
+    image: hsldevcom/pelias-api
+    container_name: pelias_api
+    environment:
+      - PELIAS_CONFIG=/config/pelias.json 
+      - PORT=4000 
+    volumes:
+      - ./pelias.json:/config/pelias.json
+    ports: [ "0.0.0.0:3100:4000" ]
+    depends_on:
+      - elasticsearch
+      - placeholder
+      - parser
+      - pip
+
+volumes:
+  esdata:
+  placeholderdata:
+
