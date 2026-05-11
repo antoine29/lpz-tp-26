@@ -18,17 +18,21 @@ Repo at `https://github.com/antoine29/hsl-map-server`
 
 DigiTransit geocoding service to used on the FE application. Deprecated in favour of geocoder service since pelias requires more resources and it is harder to setup (harder than geocoder motis)
 
-- geocoder
+- motis
 
-Geocoding service to be used on the FE application. It uses a Motis instance and an adapter service to translate DigiTransit pelias requests into Motis
+Used as geocoding service to be used on the FE application. It has to be used along an adapter service
 
-- ui
+- pelias-to-motis-adapter
 
-Main FE web application, it uses above otp, map-server, and geocoder as BE dependencies.
+Service used to adapt FE requests to pelias, to be answered by Motis
+
+- digitransit-ui
+
+Main FE web application, it uses above otp, map-server, and motis adapter as BE dependencies.
 
 ## Local development setup
 
-Refer to each folder readme.md file to setup each project locally
+Refer to each folder `readme.md` file to setup each project locally
 
 ## Production deployment
 
