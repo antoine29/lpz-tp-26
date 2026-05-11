@@ -1,0 +1,14 @@
+server:
+  port: 8083
+  web_folder: ui
+osm: data/bolivia-260415.osm.pbf
+tiles:
+  profile: tiles-profiles/full.lua
+  db_size: 274877906944
+  flush_threshold: 100000
+elevators: false
+street_routing: false
+osr_footpath: false
+geocoding: true
+reverse_geocoding: true
+

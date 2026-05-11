@@ -1,0 +1,24 @@
+FROM debian:bookworm-slim
+
+ARG MOTIS_VERSION=v2.9.2
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    bzip2 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /motis
+
+RUN curl -fsSL https://github.com/motis-project/motis/releases/download/${MOTIS_VERSION}/motis-linux-amd64.tar.bz2 -o motis.tar.bz2 && \
+    tar xf motis.tar.bz2 && \
+    rm motis.tar.bz2
+
+COPY config.yml .
+COPY data/ ./data/
+
+RUN ./motis import
+
+EXPOSE 8083
+
+CMD ["./motis", "server"]
