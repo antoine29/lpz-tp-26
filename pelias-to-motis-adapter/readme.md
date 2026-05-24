@@ -8,7 +8,7 @@ docker run -d \
   --name adapter \
   -p 8084:8084 \
   -e PORT=8084 \
-  -e MOTIS_HOST=http://172.17.0.4:8083 \
+  -e MOTIS_HOST=http://172.17.0.3:8083 \
   adapter
 ``` 
 
