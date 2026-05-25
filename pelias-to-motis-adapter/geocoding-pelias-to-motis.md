@@ -8,7 +8,11 @@ the adapter service will receive this request and re-use some of the params to m
 - it should reuse the text url param to make a motis request (line :94)
 - the endpoint should return the json response in the format shown from line :16
 
-curl 'http://localhost:8084/v1/search?text=airport&lang=en&sources=oa%2Cosm%2Cnlsfi%2CgtfsHSL%2CgtfsHSLlautta&layers=station%2Cvenue%2Caddress%2Cstreet' \
+curl 'http://localhost:8084/v1/search?\
+  text=airport\
+  &lang=en\
+  &sources=oa%2Cosm%2Cnlsfi%2CgtfsHSL%2CgtfsHSLlautta\
+  &layers=station%2Cvenue%2Caddress%2Cstreet' \
   -H 'accept: application/json'
 
 {

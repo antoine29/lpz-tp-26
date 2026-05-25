@@ -24,7 +24,8 @@ func main() {
 
 	helpers.MotisHost = motisHost
 
-	http.HandleFunc("/v1/search", handlers.Geocode)
+	http.HandleFunc("/v1/search", handlers.PeliasSearch)
+	http.HandleFunc("/v1/reverse", handlers.PeliasReverse)
 	fmt.Printf("Starting adapter service on :%s\n", port)
 	http.ListenAndServe(":"+port, nil)
 }
