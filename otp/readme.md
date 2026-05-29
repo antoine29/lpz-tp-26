@@ -12,12 +12,14 @@ bolivia-260415.osm.pbf
 
 The `entrypoint.sh` file is used to hijack the default container entrypoint
 
-## Manual run:
+## Manual run using hsl image:
 
 ```
 docker run \
+  --name otp \
   -v ${PWD}/data:/var/otp/v3-prod/waltti \
   -v ${PWD}/entrypoint.sh:/entrypoint.sh \
+  -v ${PWD}/build-config.json:/var/otp/v3-prod/waltti/build-config.json \
   -p 8081:8080 \
   -d \
   -e OTP_GRAPH_DIR=v3-prod/waltti \
@@ -32,6 +34,7 @@ docker image build . -t otp
 docker run -d \
   --name otp \
   -p 8081:8080 \
+  -v ${PWD}/data:/var/otp/v3-prod/waltti \
   otp:latest
 ```
 

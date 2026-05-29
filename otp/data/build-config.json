@@ -1,0 +1,19 @@
+{
+  "transitFeeds": [
+    {
+      "type": "gtfs",
+      "feedId": "LPB",
+      "source": "lpzbus.zip"
+    },
+    {
+      "type": "gtfs",
+      "feedId": "MT",
+      "source": "miteleferico.zip"
+    }
+  ],
+  "osm": [
+    {
+      "source": "bolivia-260415.osm.pbf"
+    }
+  ]
+}
