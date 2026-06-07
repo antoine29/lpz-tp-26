@@ -42,7 +42,11 @@ docker run --name motis -d -p 8083:8083 motis
 ## Tests
 
 ```
- curl 'http://localhost:8083/api/v1/geocode?text=multicine'
+# Geocoding
+curl 'http://localhost:8083/api/v1/geocode?text=multicine'
+
+# Reverse geocoding
+curl 'http://localhost:8083/api/v1/reverse-geocode?place=-16.5105435,-68.1220433'
 ```
 
 ## Notes:
