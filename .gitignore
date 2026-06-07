@@ -1,12 +1,5 @@
 hsl-map-server/
-otp/data/
-digitransit-ui
-hsl-files
-
-**/*files*/
-
-*.zip
-*.pbf
-*.db
-
+digitransit-ui/
+hsl-files/
+static-GTFS-manager/
 
