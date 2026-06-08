@@ -3,7 +3,8 @@ FROM hsldevcom/opentripplanner:v2-prod-waltti
 ENV OTP_GRAPH_DIR=v3-prod/waltti
 
 # ToDo: mount this as a volume instead of copying
-COPY data/ /var/otp/v3-prod/waltti
+# COPY data/ /var/otp/v3-prod/waltti
+
 COPY entrypoint.sh /entrypoint.sh
 
 EXPOSE 8080
