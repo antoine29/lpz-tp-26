@@ -1,0 +1,52 @@
+services:
+  motis:
+    image: motis:latest
+    ports:
+      - "8083:8083"
+    healthcheck:
+      test: ["CMD", "curl", "-s", "-o", "/dev/null", "-w", "%{http_code}\n", "http://localhost:8083/api/v1/geocode?text=multicine"]
+      start_period: 5s
+      interval: 120s
+      timeout: 5s
+      retries: 3
+
+  pelias-to-motis-adapter:
+    image: adapter:latest
+    environment:
+      - PORT=8004
+      - MOTIS_HOST=http://motis:8083
+    ports:
+      - "8084:8004"
+    depends_on:
+      motis:
+        condition: service_healthy
+
+  otp:
+    image: otp:latest
+    ports:
+      - "8081:8080"
+    volumes:
+      - otp-data:/var/otp/v3-prod/waltti
+
+  # map-server:
+  #   image: map-server:latest
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - map-server-data:/opt/hsl-map-server/data
+
+volumes:
+  otp-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/anthony/Projects/lpz-tp-26/otp/data
+      o: bind
+
+  # map-server-data:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     device: /home/anthony/Projects/lpz-tp-26/hsl-map-server/data
+  #     o: bind
+
