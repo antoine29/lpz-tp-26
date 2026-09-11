@@ -8,15 +8,15 @@ This is a web based trip planner application to provide information about the pu
 
 This the main routing service. It uses a DigiTransit OpenTripPlanner fork container image.
 
+it uses GTFS datasets along osm files
+
 - hsl-map-server
 
 Service to provide map tiles to be used on the FE application. It is a DigiTransit forked repo.
 
-Repo at `https://github.com/antoine29/hsl-map-server`
+it uses mbtiles and geojson as data sources
 
-- pelias (deprecated)
-
-DigiTransit geocoding service to used on the FE application. Deprecated in favour of geocoder service since pelias requires more resources and it is harder to setup (harder than geocoder motis)
+Forked repo at `https://github.com/antoine29/hsl-map-server`
 
 - motis
 
@@ -33,6 +33,8 @@ Main FE web application, it uses above otp, map-server, and motis adapter as BE 
 ## Local development setup
 
 Refer to each folder `readme.md` file to setup each project locally
+
+Forked repo at `https://github.com/antoine29/digitransit-ui`
 
 ## Production deployment
 

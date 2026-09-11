@@ -28,12 +28,12 @@ services:
     volumes:
       - otp-data:/var/otp/v3-prod/waltti
 
-  # map-server:
-  #   image: map-server:latest
-  #   ports:
-  #     - "8080:8080"
-  #   volumes:
-  #     - map-server-data:/opt/hsl-map-server/data
+  map-server:
+    image: map-server:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - map-server-data:/opt/hsl-map-server/data
 
 volumes:
   otp-data:
@@ -43,10 +43,10 @@ volumes:
       device: /home/anthony/Projects/lpz-tp-26/otp/data
       o: bind
 
-  # map-server-data:
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     device: /home/anthony/Projects/lpz-tp-26/hsl-map-server/data
-  #     o: bind
+  map-server-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/anthony/Projects/lpz-tp-26/hsl-map-server/data
+      o: bind
 
